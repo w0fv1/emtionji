@@ -326,7 +326,7 @@ defineExpose({ play, stop, reload: load })
   color: inherit;
   background: transparent;
   line-height: 1;
-  font: inherit;
+  font-family: inherit;
   cursor: pointer;
   overflow: visible;
   touch-action: manipulation;
