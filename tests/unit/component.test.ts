@@ -18,6 +18,19 @@ const data = {
   }
 }
 
+function stubMotionPreference() {
+  vi.stubGlobal("matchMedia", vi.fn((media: string) => ({
+    matches: false,
+    media,
+    onchange: null,
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(() => true)
+  })))
+}
+
 afterEach(() => {
   vi.useRealTimers()
   vi.unstubAllGlobals()
@@ -32,9 +45,11 @@ describe("AnimatedEmoji", () => {
       resolveSvg = resolve
     })
     vi.stubGlobal("fetch", vi.fn(() => svgResponse))
+    stubMotionPreference()
+    const onPlay = vi.fn()
     const container = document.createElement("div")
     document.body.append(container)
-    const app = createApp(AnimatedEmoji, { data })
+    const app = createApp(AnimatedEmoji, { data, onPlay })
 
     app.mount(container)
     await nextTick()
@@ -46,8 +61,40 @@ describe("AnimatedEmoji", () => {
       { status: 200 }
     ))
     await vi.waitFor(() => {
+      expect(container.querySelector("svg")).not.toBeNull()
+      expect(onPlay).toHaveBeenCalledOnce()
+    })
+    app.unmount()
+  })
+
+  it("can show the fallback and disable playback when ready", async () => {
+    let resolveSvg!: (response: Response) => void
+    const svgResponse = new Promise<Response>(resolve => {
+      resolveSvg = resolve
+    })
+    vi.stubGlobal("fetch", vi.fn(() => svgResponse))
+    const onPlay = vi.fn()
+    const container = document.createElement("div")
+    document.body.append(container)
+    const app = createApp(AnimatedEmoji, {
+      data,
+      hideUntilReady: false,
+      playOnReady: false,
+      onPlay
+    })
+
+    app.mount(container)
+    await nextTick()
+    expect(container.querySelector(".emtionji__fallback")?.textContent).toBe("🌻")
+
+    resolveSvg(new Response(
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#f4b400" d="M0 0h36v36H0z"/></svg>',
+      { status: 200 }
+    ))
+    await vi.waitFor(() => {
       expect(container.querySelector("[data-emtionji-state='idle'] svg")).not.toBeNull()
     })
+    expect(onPlay).not.toHaveBeenCalled()
     app.unmount()
   })
 
@@ -57,21 +104,13 @@ describe("AnimatedEmoji", () => {
       '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#f4b400" d="M0 0h36v36H0z"/></svg>',
       { status: 200 }
     )))
-    vi.stubGlobal("matchMedia", vi.fn((media: string) => ({
-      matches: false,
-      media,
-      onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      dispatchEvent: vi.fn(() => true)
-    })))
+    stubMotionPreference()
     const onPlay = vi.fn()
     const container = document.createElement("div")
     document.body.append(container)
     const app = createApp(AnimatedEmoji, {
       data,
+      playOnReady: false,
       ambientPlay: { intervalMs: 10_000, probability: 0.5 },
       onPlay
     })
@@ -108,7 +147,7 @@ describe("AnimatedEmoji", () => {
     vi.stubGlobal("fetch", fetcher)
     const container = document.createElement("div")
     document.body.append(container)
-    const app = createApp(AnimatedEmoji, { data: dataUrl })
+    const app = createApp(AnimatedEmoji, { data: dataUrl, playOnReady: false })
 
     app.mount(container)
     await vi.waitFor(() => {
@@ -148,7 +187,7 @@ describe("AnimatedEmoji", () => {
     }
     const container = document.createElement("div")
     document.body.append(container)
-    const app = createApp(AnimatedEmoji, { data: composedData })
+    const app = createApp(AnimatedEmoji, { data: composedData, playOnReady: false })
 
     app.mount(container)
     await vi.waitFor(() => {

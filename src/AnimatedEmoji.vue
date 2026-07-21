@@ -12,10 +12,16 @@ import {
 import { createSvgElement, emojiToSvg } from "./emojiToSvg"
 import { playTracks } from "./runtime"
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   data: EmtionjiData | string
-  ambientPlay?: AmbientPlayOptions
-}>()
+  ambientPlay?: AmbientPlayOptions | undefined
+  hideUntilReady?: boolean
+  playOnReady?: boolean
+}>(), {
+  ambientPlay: undefined,
+  hideUntilReady: true,
+  playOnReady: true
+})
 
 const emit = defineEmits<{
   play: [emoji: string]
@@ -261,6 +267,9 @@ async function load() {
     bindParts()
     host.value.replaceChildren(svg)
     ready.value = true
+    if (props.playOnReady) {
+      void play()
+    }
   } catch (cause) {
     if (loadGeneration !== generation) {
       return
@@ -350,6 +359,7 @@ defineExpose({ play, stop, reload: load })
     @click="play"
   >
     <span ref="host" class="emtionji__svg" aria-hidden="true"></span>
+    <span v-if="!ready && emoji && !hideUntilReady" class="emtionji__fallback" aria-hidden="true">{{ emoji }}</span>
   </span>
 </template>
 
@@ -370,7 +380,8 @@ defineExpose({ play, stop, reload: load })
   touch-action: manipulation;
 }
 
-.emtionji__svg {
+.emtionji__svg,
+.emtionji__fallback {
   grid-area: 1 / 1;
 }
 
@@ -380,6 +391,10 @@ defineExpose({ play, stop, reload: load })
   width: 100%;
   height: 100%;
   overflow: visible;
+}
+
+.emtionji__fallback {
+  font-size: 0.78em;
 }
 
 </style>
