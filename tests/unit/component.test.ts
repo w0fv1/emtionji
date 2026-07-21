@@ -1,5 +1,5 @@
 /* eslint-disable vue/one-component-per-file */
-import { createApp } from "vue"
+import { createApp, nextTick } from "vue"
 import { afterEach, describe, expect, it, vi } from "vitest"
 import AnimatedEmoji from "../../src/AnimatedEmoji.vue"
 
@@ -26,6 +26,31 @@ afterEach(() => {
 })
 
 describe("AnimatedEmoji", () => {
+  it("stays visually empty until the SVG is ready", async () => {
+    let resolveSvg!: (response: Response) => void
+    const svgResponse = new Promise<Response>(resolve => {
+      resolveSvg = resolve
+    })
+    vi.stubGlobal("fetch", vi.fn(() => svgResponse))
+    const container = document.createElement("div")
+    document.body.append(container)
+    const app = createApp(AnimatedEmoji, { data })
+
+    app.mount(container)
+    await nextTick()
+    expect(container.querySelector("[data-emtionji-state='loading']")).not.toBeNull()
+    expect(container.querySelector(".emtionji__fallback")).toBeNull()
+
+    resolveSvg(new Response(
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#f4b400" d="M0 0h36v36H0z"/></svg>',
+      { status: 200 }
+    ))
+    await vi.waitFor(() => {
+      expect(container.querySelector("[data-emtionji-state='idle'] svg")).not.toBeNull()
+    })
+    app.unmount()
+  })
+
   it("plays ambient animation on the configured interval and probability", async () => {
     vi.useFakeTimers()
     vi.stubGlobal("fetch", vi.fn(async () => new Response(

@@ -350,7 +350,6 @@ defineExpose({ play, stop, reload: load })
     @click="play"
   >
     <span ref="host" class="emtionji__svg" aria-hidden="true"></span>
-    <span v-if="!ready && emoji" class="emtionji__fallback" aria-hidden="true">{{ emoji }}</span>
   </span>
 </template>
 
@@ -371,8 +370,7 @@ defineExpose({ play, stop, reload: load })
   touch-action: manipulation;
 }
 
-.emtionji__svg,
-.emtionji__fallback {
+.emtionji__svg {
   grid-area: 1 / 1;
 }
 
@@ -384,7 +382,4 @@ defineExpose({ play, stop, reload: load })
   overflow: visible;
 }
 
-.emtionji__fallback {
-  font-size: 0.78em;
-}
 </style>
