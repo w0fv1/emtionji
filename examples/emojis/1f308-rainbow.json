@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "emoji": "🌈",
+  "parts": {
+    "whole": {
+      "selector": ":scope > *",
+      "origin": "50% 92%"
+    }
+  },
+  "animations": {
+    "press": [
+      {
+        "target": "whole",
+        "keyframes": {
+          "scaleX": [
+            1,
+            0.9,
+            1.08,
+            0.98,
+            1.025,
+            1
+          ],
+          "scaleY": [
+            1,
+            0.78,
+            1.08,
+            0.97,
+            1.02,
+            1
+          ],
+          "y": [
+            0,
+            4,
+            -2,
+            0.5,
+            0
+          ]
+        },
+        "duration": 1.25,
+        "ease": [
+          0.18,
+          0.82,
+          0.2,
+          1
+        ]
+      }
+    ]
+  }
+}

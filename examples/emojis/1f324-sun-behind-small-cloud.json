@@ -1,0 +1,88 @@
+{
+  "version": 1,
+  "emoji": "🌤️",
+  "parts": {
+    "sun": {
+      "selector": ":scope > path:first-of-type, :scope > circle",
+      "origin": "50% 50%"
+    },
+    "cloud": {
+      "selector": ":scope > path:last-of-type",
+      "origin": "70% 80%"
+    }
+  },
+  "animations": {
+    "press": [
+      {
+        "target": "sun",
+        "keyframes": {
+          "y": [
+            0,
+            1,
+            -1.8,
+            -3,
+            -1,
+            0
+          ],
+          "scale": [
+            1,
+            0.96,
+            1.08,
+            1.13,
+            1.04,
+            1
+          ],
+          "opacity": [
+            1,
+            0.88,
+            1,
+            0.94,
+            1
+          ]
+        },
+        "duration": 0.82,
+        "ease": [
+          0.2,
+          0.72,
+          0.18,
+          1
+        ]
+      },
+      {
+        "target": "cloud",
+        "keyframes": {
+          "x": [
+            0,
+            -1.5,
+            2.8,
+            1,
+            0
+          ],
+          "y": [
+            0,
+            0.8,
+            -0.5,
+            0
+          ],
+          "scaleX": [
+            1,
+            1.025,
+            0.99,
+            1
+          ]
+        },
+        "duration": 0.78,
+        "delay": 0.02,
+        "ease": [
+          0.22,
+          0.72,
+          0.18,
+          1
+        ],
+        "directional": [
+          "x"
+        ]
+      }
+    ]
+  }
+}

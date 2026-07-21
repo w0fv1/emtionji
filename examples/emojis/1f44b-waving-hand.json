@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "emoji": "👋",
+  "parts": {
+    "accents": {
+      "selector": ":scope > g",
+      "origin": "45% 45%"
+    },
+    "hand": {
+      "selector": ":scope > path",
+      "origin": "30% 88%"
+    }
+  },
+  "animations": {
+    "press": [
+      {
+        "target": "hand",
+        "keyframes": {
+          "rotate": [
+            0,
+            22,
+            -15,
+            20,
+            -12,
+            12,
+            -6,
+            0
+          ],
+          "x": [
+            0,
+            1.2,
+            -0.8,
+            1,
+            -0.4,
+            0
+          ]
+        },
+        "duration": 1.05,
+        "ease": [
+          0.22,
+          0.72,
+          0.18,
+          1
+        ],
+        "directional": [
+          "rotate",
+          "x"
+        ]
+      },
+      {
+        "target": "accents",
+        "keyframes": {
+          "opacity": [
+            1,
+            0.25,
+            1,
+            0.35,
+            1
+          ],
+          "scale": [
+            1,
+            1.14,
+            0.92,
+            1.08,
+            1
+          ]
+        },
+        "duration": 0.82,
+        "delay": 0.06,
+        "ease": "easeInOut"
+      }
+    ]
+  }
+}

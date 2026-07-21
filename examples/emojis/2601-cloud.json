@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "emoji": "☁️",
+  "parts": {
+    "back": {
+      "selector": "path:first-of-type",
+      "origin": "50% 55%"
+    },
+    "front": {
+      "selector": "path:last-of-type",
+      "origin": "50% 62%"
+    }
+  },
+  "animations": {
+    "press": [
+      {
+        "target": "back",
+        "keyframes": {
+          "x": [
+            0,
+            -2.2,
+            -3.5,
+            -1.5,
+            0
+          ],
+          "y": [
+            0,
+            -0.8,
+            -1.2,
+            -0.4,
+            0
+          ],
+          "scale": [
+            1,
+            1.025,
+            1.04,
+            1.015,
+            1
+          ]
+        },
+        "duration": 0.7,
+        "ease": [
+          0.22,
+          0.72,
+          0.18,
+          1
+        ],
+        "directional": [
+          "x"
+        ]
+      },
+      {
+        "target": "front",
+        "keyframes": {
+          "x": [
+            0,
+            2.5,
+            4,
+            1.8,
+            0
+          ],
+          "y": [
+            0,
+            0.6,
+            1,
+            -0.2,
+            0
+          ],
+          "scaleX": [
+            1,
+            1.035,
+            1.055,
+            1.02,
+            1
+          ]
+        },
+        "duration": 0.64,
+        "delay": 0.02,
+        "ease": [
+          0.22,
+          0.72,
+          0.18,
+          1
+        ],
+        "directional": [
+          "x"
+        ]
+      }
+    ]
+  }
+}

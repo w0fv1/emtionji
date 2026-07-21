@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "emoji": "💫",
+  "parts": {
+    "star": {
+      "selector": "path:first-of-type",
+      "origin": "50% 50%"
+    },
+    "trail": {
+      "selector": "path:last-of-type",
+      "origin": "50% 50%"
+    }
+  },
+  "animations": {
+    "press": [
+      {
+        "target": "star",
+        "keyframes": {
+          "rotate": [
+            0,
+            90,
+            210,
+            360
+          ],
+          "scale": [
+            1,
+            1.22,
+            0.88,
+            1.08,
+            1
+          ]
+        },
+        "duration": 0.95,
+        "ease": [
+          0.18,
+          0.72,
+          0.2,
+          1
+        ],
+        "directional": [
+          "rotate"
+        ]
+      },
+      {
+        "target": "trail",
+        "keyframes": {
+          "rotate": [
+            0,
+            -55,
+            -160,
+            -300,
+            -360
+          ],
+          "opacity": [
+            1,
+            0.45,
+            0.9,
+            0.35,
+            1
+          ],
+          "scale": [
+            1,
+            1.05,
+            0.97,
+            1
+          ]
+        },
+        "duration": 1.1,
+        "delay": 0.03,
+        "ease": "easeInOut",
+        "directional": [
+          "rotate"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "emoji": "🪴",
+  "parts": {
+    "whole": {
+      "selector": ":scope > *",
+      "origin": "50% 98%"
+    }
+  },
+  "animations": {
+    "press": [
+      {
+        "target": "whole",
+        "keyframes": {
+          "scaleY": [
+            1,
+            0.88,
+            1.12,
+            0.97,
+            1.045,
+            1
+          ],
+          "scaleX": [
+            1,
+            1.06,
+            0.955,
+            1.025,
+            1
+          ],
+          "y": [
+            0,
+            3.5,
+            -2,
+            0.8,
+            0
+          ],
+          "rotate": [
+            0,
+            -5.5,
+            4.2,
+            -2,
+            0
+          ]
+        },
+        "duration": 0.82,
+        "ease": [
+          0.22,
+          0.72,
+          0.18,
+          1
+        ],
+        "directional": [
+          "rotate"
+        ]
+      }
+    ]
+  }
+}

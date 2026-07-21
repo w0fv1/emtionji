@@ -1,0 +1,55 @@
+{
+  "name": "@w0fv1/emtionji",
+  "version": "0.1.0",
+  "description": "A JSON-driven animated emoji core for Vue.",
+  "type": "module",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "main": "./dist/emtionji.js",
+  "module": "./dist/emtionji.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/emtionji.js"
+    },
+    "./style.css": "./dist/emtionji.css"
+  },
+  "scripts": {
+    "example": "vite --mode example --open",
+    "example:build": "vite build --mode example",
+    "build": "pnpm type-check && vite build",
+    "type-check": "vue-tsc -b",
+    "lint": "eslint .",
+    "test:unit": "vitest run",
+    "verify": "pnpm type-check && pnpm lint && pnpm test:unit && pnpm build"
+  },
+  "peerDependencies": {
+    "vue": ">=3.5.0"
+  },
+  "dependencies": {
+    "@twemoji/parser": "17.0.2",
+    "motion": "12.42.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "26.1.1",
+    "@vitejs/plugin-vue": "6.0.7",
+    "@vue/tsconfig": "0.9.1",
+    "eslint": "10.6.0",
+    "eslint-plugin-vue": "10.9.2",
+    "globals": "17.7.0",
+    "jsdom": "^29.1.1",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.63.0",
+    "vite": "8.1.4",
+    "vite-plugin-dts": "5.0.3",
+    "vitest": "4.1.10",
+    "vue": "3.5.39",
+    "vue-eslint-parser": "10.4.1",
+    "vue-tsc": "3.3.7"
+  }
+}

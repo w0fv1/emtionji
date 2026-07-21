@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "emoji": "🌼",
+  "parts": {
+    "stem": {
+      "selector": "path:first-of-type",
+      "origin": "50% 90%"
+    },
+    "petals": {
+      "selector": ":scope > [fill='#CCD6DD'], :scope > [fill='#E1E8ED']",
+      "origin": "50% 50%"
+    },
+    "center": {
+      "selector": "circle",
+      "origin": "50% 50%"
+    }
+  },
+  "animations": {
+    "press": [
+      {
+        "target": "stem",
+        "keyframes": {
+          "scaleY": [
+            1,
+            0.96,
+            1.025,
+            1
+          ]
+        },
+        "duration": 1.15,
+        "ease": [
+          0.22,
+          0.72,
+          0.18,
+          1
+        ]
+      },
+      {
+        "target": "petals",
+        "keyframes": {
+          "scale": [
+            1,
+            0.84,
+            1.14,
+            0.97,
+            1.04,
+            1
+          ],
+          "rotate": [
+            0,
+            -8,
+            9,
+            -3,
+            2,
+            0
+          ]
+        },
+        "duration": 1.2,
+        "delay": 0.04,
+        "ease": [
+          0.22,
+          0.72,
+          0.18,
+          1
+        ],
+        "directional": [
+          "rotate"
+        ]
+      },
+      {
+        "target": "center",
+        "keyframes": {
+          "scale": [
+            1,
+            0.88,
+            1.13,
+            0.98,
+            1
+          ]
+        },
+        "duration": 0.85,
+        "delay": 0.18,
+        "ease": "easeInOut"
+      }
+    ]
+  }
+}

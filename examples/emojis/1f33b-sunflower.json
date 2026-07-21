@@ -1,0 +1,121 @@
+{
+  "version": 1,
+  "emoji": "🌻",
+  "parts": {
+    "plant": {
+      "selector": "path:first-of-type",
+      "origin": "50% 97%"
+    },
+    "petals": {
+      "selector": "path:nth-of-type(2)",
+      "origin": "50% 39%"
+    },
+    "face": {
+      "selector": "circle",
+      "origin": "50% 39%"
+    }
+  },
+  "animations": {
+    "press": [
+      {
+        "target": "plant",
+        "keyframes": {
+          "rotate": [
+            0,
+            7,
+            -4,
+            2,
+            -0.5,
+            0
+          ],
+          "scaleY": [
+            1,
+            0.97,
+            1.025,
+            0.995,
+            1
+          ]
+        },
+        "duration": 0.78,
+        "ease": [
+          0.22,
+          0.72,
+          0.18,
+          1
+        ],
+        "directional": [
+          "rotate"
+        ]
+      },
+      {
+        "target": "petals",
+        "keyframes": {
+          "x": [
+            0,
+            3.5,
+            -2,
+            1,
+            0
+          ],
+          "rotate": [
+            0,
+            15,
+            -8,
+            4,
+            0
+          ],
+          "scale": [
+            1,
+            1.08,
+            0.98,
+            1.03,
+            1
+          ]
+        },
+        "duration": 0.9,
+        "delay": 0.03,
+        "ease": [
+          0.22,
+          0.72,
+          0.18,
+          1
+        ],
+        "directional": [
+          "x",
+          "rotate"
+        ]
+      },
+      {
+        "target": "face",
+        "keyframes": {
+          "x": [
+            0,
+            3,
+            -1.7,
+            0.8,
+            0
+          ],
+          "rotate": [
+            0,
+            9,
+            -5,
+            2,
+            0
+          ]
+        },
+        "duration": 0.9,
+        "delay": 0.04,
+        "ease": [
+          0.22,
+          0.72,
+          0.18,
+          1
+        ],
+        "directional": [
+          "x",
+          "rotate"
+        ]
+      }
+    ]
+  }
+}
