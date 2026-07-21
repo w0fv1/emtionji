@@ -1,11 +1,13 @@
 {
   "name": "@w0fv1/emtionji",
   "version": "0.1.0",
+  "packageManager": "pnpm@10.33.4",
   "description": "A JSON-driven animated emoji core for Vue.",
   "type": "module",
   "license": "MIT",
   "files": [
     "dist",
+    "examples/emojis",
     "README.md"
   ],
   "main": "./dist/emtionji.js",
@@ -16,11 +18,17 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/emtionji.js"
     },
+    "./presets": {
+      "types": "./dist/presets.d.ts",
+      "import": "./dist/presets.js"
+    },
+    "./emoji/*.json": "./examples/emojis/*.json",
     "./style.css": "./dist/emtionji.css"
   },
   "scripts": {
     "example": "vite --mode example --open",
     "example:build": "vite build --mode example",
+    "prepare": "pnpm build",
     "build": "pnpm type-check && vite build",
     "type-check": "vue-tsc -b",
     "lint": "eslint .",

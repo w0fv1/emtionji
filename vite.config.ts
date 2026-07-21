@@ -22,9 +22,12 @@ export default defineConfig(({ mode }) => {
     })],
     build: {
       lib: {
-        entry: "src/index.ts",
+        entry: {
+          emtionji: "src/index.ts",
+          presets: "src/presets.ts"
+        },
         formats: ["es"],
-        fileName: "emtionji"
+        fileName: (_format, entryName) => `${entryName}.js`
       },
       rollupOptions: {
         external: ["vue", "motion"],
