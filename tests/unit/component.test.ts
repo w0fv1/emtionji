@@ -19,11 +19,56 @@ const data = {
 }
 
 afterEach(() => {
+  vi.useRealTimers()
   vi.unstubAllGlobals()
+  vi.restoreAllMocks()
   document.body.replaceChildren()
 })
 
 describe("AnimatedEmoji", () => {
+  it("plays ambient animation on the configured interval and probability", async () => {
+    vi.useFakeTimers()
+    vi.stubGlobal("fetch", vi.fn(async () => new Response(
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#f4b400" d="M0 0h36v36H0z"/></svg>',
+      { status: 200 }
+    )))
+    vi.stubGlobal("matchMedia", vi.fn((media: string) => ({
+      matches: false,
+      media,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(() => true)
+    })))
+    const onPlay = vi.fn()
+    const container = document.createElement("div")
+    document.body.append(container)
+    const app = createApp(AnimatedEmoji, {
+      data,
+      ambientPlay: { intervalMs: 10_000, probability: 0.5 },
+      onPlay
+    })
+
+    app.mount(container)
+    await vi.advanceTimersByTimeAsync(0)
+    expect(container.querySelector("svg")).not.toBeNull()
+    const random = vi.spyOn(Math, "random")
+      .mockReturnValueOnce(0.8)
+      .mockReturnValue(0.2)
+
+    await vi.advanceTimersByTimeAsync(10_000)
+    expect(onPlay).not.toHaveBeenCalled()
+    await vi.advanceTimersByTimeAsync(10_000)
+    expect(onPlay).toHaveBeenCalledOnce()
+
+    app.unmount()
+    await vi.advanceTimersByTimeAsync(20_000)
+    expect(onPlay).toHaveBeenCalledOnce()
+    expect(random).toHaveBeenCalledTimes(2)
+  })
+
   it("loads an HTTPS JSON URL and creates its emoji SVG in memory", async () => {
     const dataUrl = "https://example.com/emtionji/sunflower.json"
     const fetcher = vi.fn(async (input: string | URL | Request) => {

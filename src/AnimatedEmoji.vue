@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { AnimationPlaybackControlsWithThen } from "motion"
 import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue"
+import type { AmbientPlayOptions } from "./component"
 import {
   loadEmtionjiData,
   parseEmtionjiData,
@@ -13,6 +14,7 @@ import { playTracks } from "./runtime"
 
 const props = defineProps<{
   data: EmtionjiData | string
+  ambientPlay?: AmbientPlayOptions
 }>()
 
 const emit = defineEmits<{
@@ -33,6 +35,7 @@ let restingAttributes = new Map<SVGElement, Map<string, string>>()
 let keyboardDirection: -1 | 1 = 1
 let generation = 0
 let clipSequence = 0
+let ambientTimer: ReturnType<typeof setInterval> | undefined
 const instanceId = Math.random().toString(36).slice(2)
 const inheritedPresentationAttributes = [
   "color",
@@ -294,9 +297,45 @@ async function play(event?: MouseEvent) {
   }
 }
 
+function clearAmbientPlay() {
+  if (ambientTimer !== undefined) {
+    clearInterval(ambientTimer)
+    ambientTimer = undefined
+  }
+}
+
+function syncAmbientPlay() {
+  clearAmbientPlay()
+  const options = props.ambientPlay
+  if (!options) {
+    return
+  }
+  if (!Number.isFinite(options.intervalMs) || options.intervalMs <= 0) {
+    emit("error", new TypeError("Invalid ambientPlay.intervalMs: expected a positive finite number"))
+    return
+  }
+  if (!Number.isFinite(options.probability) || options.probability < 0 || options.probability > 1) {
+    emit("error", new TypeError("Invalid ambientPlay.probability: expected a number from 0 to 1"))
+    return
+  }
+  ambientTimer = setInterval(() => {
+    if (!ready.value || playing.value || document.hidden || Math.random() >= options.probability) {
+      return
+    }
+    void play()
+  }, options.intervalMs)
+}
+
 watch(() => props.data, load, { deep: true })
-onMounted(load)
-onBeforeUnmount(stop)
+watch(() => props.ambientPlay, syncAmbientPlay, { deep: true })
+onMounted(() => {
+  void load()
+  syncAmbientPlay()
+})
+onBeforeUnmount(() => {
+  clearAmbientPlay()
+  stop()
+})
 
 defineExpose({ play, stop, reload: load })
 </script>
